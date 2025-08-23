@@ -1,12 +1,14 @@
 package br.com.ramonmluz.moviehub.data.model
 
-import br.com.ramonmluz.moviehub.data.model.Genre
+import kotlinx.serialization.SerialName
 
 data class MovieDetailsResponse(
     val id: Int,
     val title: String,
     val overview: String,
-    val release_date: String,
-    val poster_path: String?,
+    @SerialName("release_date")
+    val releaseDate:String,
+    @SerialName("poster_path")
+    val posterPath:String?,
     val genres: List<Genre>
 )
