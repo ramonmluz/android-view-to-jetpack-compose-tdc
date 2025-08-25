@@ -13,7 +13,7 @@ interface MovieApi {
 
     @GET("movie/popular")
     suspend fun getPopularMovies(
-        @Query("api_key") apiKey: String,
+//        @Query("api_key") apiKey: String,
         @Query("page") page: Int,
         @Query("language") language: String = "pt-BR", // Adicionando pt-BR como padrão
         @Query("region") region: String = "BR" // Adicionando BR como padrão para relevância

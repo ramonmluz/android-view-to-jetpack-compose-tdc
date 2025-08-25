@@ -21,7 +21,6 @@ kotlinxSerializationConverter = "1.0.0"
 koin = "3.5.3"
 
 # Image Loading
-# Image Loading
 glide = "4.16.0"
 
 #Testing

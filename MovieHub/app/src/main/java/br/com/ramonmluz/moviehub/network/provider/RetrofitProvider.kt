@@ -10,10 +10,12 @@ import retrofit2.Retrofit
 object RetrofitProvider {
     fun provideRetrofit(okhttpFactory: OkhttpFactory): Retrofit {
         val client = okhttpFactory.getClientRetrofit()
+        val contentType = "application/json".toMediaType()
+        val json = Json { ignoreUnknownKeys = true } // Configure Json as needed
         return Retrofit.Builder()
             .baseUrl(MovieApi.BASE_URL)
             .client(client)
-            .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
+            .addConverterFactory(json.asConverterFactory(contentType))
             .build()
     }
 }
