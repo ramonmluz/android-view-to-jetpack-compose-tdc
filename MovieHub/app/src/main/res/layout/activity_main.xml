@@ -7,12 +7,30 @@
     android:layout_height="match_parent"
     tools:context=".presentation.ui.MainActivity">
 
-    <RelativeLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_height="wrap_content">
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -20,68 +38,50 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
             tools:visibility="visible" />
-
-        <RelativeLayout
-            android:id="@+id/progressNextPage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            android:layout_alignBottom="@id/recyclerView">
-
-            <include
-                layout="@layout/view_progress"
-                android:layout_width="@dimen/loading_margin"
-                android:layout_height="@dimen/loading_margin"
-                android:layout_centerInParent="true"
-                />
-
-        </RelativeLayout>
     </RelativeLayout>
 
-
-    <include
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress"
-        layout="@layout/view_progress"
-        android:layout_width="@dimen/loading_margin"
-        android:layout_height="@dimen/loading_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="parent"
+        app:indicatorColor="@color/teal_200"
+        app:indicatorSize="@dimen/loading_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:id="@+id/areaErro"
+        android:id="@+id/errorArea"
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_card_error_view"
         android:layout_gravity="center"
         android:layout_margin="@dimen/margin_medium"
-        android:background="@color/design_default_color_error"
-        android:onClick="reloadMovies"
+        android:background="?attr/colorPrimary"
         android:orientation="horizontal"
         android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="gone">
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+        tools:visibility="visible">
 
         <ImageView
             android:layout_width="@dimen/load_img_size"
             android:layout_height="@dimen/load_img_size"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginLeft="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_big"
-            android:layout_marginRight="@dimen/margin_big"
             android:src="@mipmap/ic_reload" />
 
         <TextView
-            android:id="@+id/textMsgErroView"
+            android:id="@+id/textMsgErrorView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center_vertical"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_medium"
-            tools:text="@string/error_listing_movies" />
+            android:text="@string/error_listing_movies" />
 
     </LinearLayout>
 
