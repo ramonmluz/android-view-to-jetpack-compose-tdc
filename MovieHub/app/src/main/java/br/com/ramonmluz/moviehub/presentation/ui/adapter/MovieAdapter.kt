@@ -1,13 +1,19 @@
 package br.com.ramonmluz.moviehub.presentation.ui.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import br.com.ramonmluz.moviehub.R
 import br.com.ramonmluz.moviehub.data.model.Movie
 import br.com.ramonmluz.moviehub.databinding.ViewMovieItemBinding
+import br.com.ramonmluz.moviehub.presentation.ui.MovieDetailActivity
+import br.com.ramonmluz.moviehub.presentation.ui.MovieDetailActivity.Companion.EXTRA_MOVIE
 import com.bumptech.glide.Glide
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import kotlin.jvm.java
 
 class MovieAdapter(val items: List<Movie>, val context: Context) :
     RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
@@ -25,15 +31,15 @@ class MovieAdapter(val items: List<Movie>, val context: Context) :
         val movie: Movie = items[position]
         val imageUrl: String = context.getString(R.string.base_url_image) + movie.posterPath
         loadImage(imageUrl, holder)
-        navigateToDatail(holder)
+        navigateToDetail(holder, movie)
     }
 
-    private fun navigateToDatail(holder: ViewHolder) {
+    private fun navigateToDetail(holder: ViewHolder, movie: Movie) {
         holder.imageView.setOnClickListener { view ->
-            //            var context: Context = view.context
-            //            var intent: Intent = Intent(view.context, MovieDatailActivity::class.java)
-            //            intent.putExtra(Intent.EXTRA_INITIAL_INTENTS, movie)
-            //            context.startActivity(intent)
+            val intent = Intent(view.context, MovieDetailActivity::class.java)
+            val jsonString = Json.encodeToString(movie)
+            intent.putExtra(EXTRA_MOVIE, jsonString)
+            view.context.startActivity(intent)
         }
     }
 
