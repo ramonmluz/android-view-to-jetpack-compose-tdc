@@ -1,18 +1,30 @@
 package br.com.ramonmluz.moviehub.presentation.ui
 
+import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import br.com.ramonmluz.moviehub.R
 import br.com.ramonmluz.moviehub.data.model.Movie
 import br.com.ramonmluz.moviehub.databinding.ActivityMovieDetailBinding
 import com.bumptech.glide.Glide
+import com.google.android.material.appbar.AppBarLayout
 import kotlinx.serialization.json.Json
 import java.text.SimpleDateFormat
+import java.util.Locale
+import kotlin.math.abs
 
-class MovieDetailActivity : AppCompatActivity() {
+class MovieDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
 
     private lateinit var binding: ActivityMovieDetailBinding
-    lateinit var movie: Movie
+    private lateinit var movie: Movie
+    private var isToolbarCollapsed = false
+    private var upArrowDrawable: Drawable? = null
+    private var collapsedIconColor: Int = Color.WHITE // Default, will be updated
+    private var expandedIconColor: Int = Color.WHITE
+    private var originalMovieTitle: String = String()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,23 +33,66 @@ class MovieDetailActivity : AppCompatActivity() {
 
         val jsonString = intent.getStringExtra(EXTRA_MOVIE)
         movie = jsonString?.let { Json.decodeFromString<Movie>(it) }!!
+        originalMovieTitle = movie.originalTitle
 
         loadImage()
+        setupToolbar()
+        setupContent()
+    }
+
+    private fun setupToolbar() {
         with(binding) {
-//            toolbarMovieDetail.setSubtitleTextColor(getColor(R.color.white))
-//            toolbarMovieDetail.setTitleTextColor(getColor(R.color.white))
             setSupportActionBar(toolbarMovieDetail)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            collapsingToolbar.title = movie.originalTitle
-            collapsingToolbar.setCollapsedTitleTextColor(getColor(R.color.white))
+
+            collapsingToolbar.title = " "
+            collapsingToolbar.setCollapsedTitleTextColor(collapsedIconColor)
+
+            upArrowDrawable = ContextCompat.getDrawable(
+                this@MovieDetailActivity,
+                androidx.appcompat.R.drawable.abc_ic_ab_back_material
+            )?.mutate()
+            updateUpArrowColor(expandedIconColor)
+
+            // Add the offset listener to the AppBarLayout
+            appBarMovieDetail.addOnOffsetChangedListener(this@MovieDetailActivity)
+        }
+    }
+
+    override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
+        val totalScrollRange = appBarLayout?.totalScrollRange ?: 0
+        val currentScrollPercentage = abs(verticalOffset).toFloat() / totalScrollRange.toFloat()
+
+        if (currentScrollPercentage >= 0.9f) { // Consider it collapsed if 90% or more is scrolled
+            if (!isToolbarCollapsed) {
+                updateUpArrowColor(collapsedIconColor)
+                binding.collapsingToolbar.title = originalMovieTitle
+                isToolbarCollapsed = true
+            }
+        } else {
+            if (isToolbarCollapsed) {
+                updateUpArrowColor(expandedIconColor)
+                binding.collapsingToolbar.title = String()
+                isToolbarCollapsed = false
+            }
+        }
+    }
+
+    private fun updateUpArrowColor(color: Int) {
+        upArrowDrawable?.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+        supportActionBar?.setHomeAsUpIndicator(upArrowDrawable)
+    }
+
+    private fun setupContent() {
+        with(binding) {
             releaseDateDatail.text = getReleaseYear(movie.releaseDate)
             overviewDetail.text = movie.overview
         }
     }
 
-    private fun getReleaseYear(realeaseDate: String): String {
-        val simpleDateFormat: SimpleDateFormat = SimpleDateFormat("yyyy")
-        return simpleDateFormat.format(simpleDateFormat.parse(realeaseDate))
+    private fun getReleaseYear(releaseDate: String): String {
+        val simpleDateFormat = SimpleDateFormat("yyyy", Locale.getDefault())
+        return simpleDateFormat.format(simpleDateFormat.parse(releaseDate))
     }
 
     fun loadImage() {

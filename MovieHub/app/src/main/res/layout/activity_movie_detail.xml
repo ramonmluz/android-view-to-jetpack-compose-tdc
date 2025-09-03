@@ -13,23 +13,22 @@
         android:layout_height="256dp"
         android:fitsSystemWindows="true">
 
-         <com.google.android.material.appbar.CollapsingToolbarLayout
+        <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
+            app:contentScrim="@color/purple_200"
             app:expandedTitleGravity="top"
-            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-             app:contentScrim="@color/purple_500"
-             >
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
 
             <ImageView
                 android:id="@+id/movieImageDetail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_gravity="center|end"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
-                android:layout_gravity="center|end"
                 app:layout_collapseMode="pin"
                 tools:src="@mipmap/local_movies" />
 
@@ -37,7 +36,8 @@
                 android:id="@+id/toolbarMovieDetail"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin" />
+                app:layout_collapseMode="pin"
+                style="@style/Theme.AppCompat.Light"/>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -61,8 +61,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/text_size_medium"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:textAppearance="?android:textAppearanceSmall"
+                android:textAppearance="?android:textAppearanceMedium"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 tools:text="2002" />
 
             <TextView
@@ -70,6 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_medium"
+                android:textAppearance="?android:textAppearanceMedium"
                 android:textColor="@color/black"
                 app:layout_constraintTop_toBottomOf="@id/releaseDateDatail"
                 tools:text="Movies Teste Search" />
