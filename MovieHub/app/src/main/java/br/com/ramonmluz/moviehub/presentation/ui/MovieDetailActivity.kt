@@ -5,6 +5,19 @@ import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import br.com.ramonmluz.moviehub.R
 import br.com.ramonmluz.moviehub.data.model.Movie
@@ -38,6 +51,7 @@ class MovieDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedLis
         loadImage()
         setupToolbar()
         setupContent()
+
     }
 
     private fun setupToolbar() {
@@ -84,9 +98,8 @@ class MovieDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedLis
     }
 
     private fun setupContent() {
-        with(binding) {
-            releaseDateDatail.text = getReleaseYear(movie.releaseDate)
-            overviewDetail.text = movie.overview
+        binding.movieDetailContentComposeView.setContent {
+            MovieDeTailContent()
         }
     }
 
@@ -102,6 +115,28 @@ class MovieDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedLis
             .placeholder(R.mipmap.local_movies)
             .error(R.mipmap.ic_launcher)
             .into(binding.movieImageDetail)
+    }
+
+    @Composable
+    fun MovieDeTailContent() {
+        Column(
+            modifier  = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(16.dp)
+        ) {
+            Text(
+                text = getReleaseYear(movie.releaseDate),
+                color = colorResource(R.color.black),
+                style = MaterialTheme.typography.titleLarge,
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = movie.overview,
+                color = colorResource(R.color.black),
+                style = MaterialTheme.typography.bodyLarge,
+            )
+        }
     }
 
     companion object {
