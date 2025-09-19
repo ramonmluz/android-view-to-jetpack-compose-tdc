@@ -27,6 +27,7 @@ koin = "3.5.3"
 
 # Image Loading
 glide = "4.16.0"
+coil = "2.4.0"
 
 #Testing
 junit = "4.13.2"
@@ -76,6 +77,9 @@ kotlinx-serialization-converter = { group = "com.jakewharton.retrofit", name = "
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 
 # Image Loading (Glide)
+
+coil = {group = "io.coil-kt", name="coil-compose", version.ref = "coil"}
+
 glide-core = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
 

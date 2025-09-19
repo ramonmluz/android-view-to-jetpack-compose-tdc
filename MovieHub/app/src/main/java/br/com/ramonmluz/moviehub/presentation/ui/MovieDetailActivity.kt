@@ -1,42 +1,51 @@
 package br.com.ramonmluz.moviehub.presentation.ui
 
-import android.graphics.Color
-import android.graphics.PorterDuff
-import android.graphics.drawable.Drawable
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import br.com.ramonmluz.moviehub.R
 import br.com.ramonmluz.moviehub.data.model.Movie
 import br.com.ramonmluz.moviehub.databinding.ActivityMovieDetailBinding
-import com.bumptech.glide.Glide
-import com.google.android.material.appbar.AppBarLayout
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import kotlinx.serialization.json.Json
 import java.text.SimpleDateFormat
 import java.util.Locale
-import kotlin.math.abs
 
-class MovieDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
+@ExperimentalMaterial3Api
+class MovieDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMovieDetailBinding
     private lateinit var movie: Movie
-    private var isToolbarCollapsed = false
-    private var upArrowDrawable: Drawable? = null
-    private var collapsedIconColor: Int = Color.WHITE // Default, will be updated
-    private var expandedIconColor: Int = Color.WHITE
     private var originalMovieTitle: String = String()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,58 +57,60 @@ class MovieDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedLis
         movie = jsonString?.let { Json.decodeFromString<Movie>(it) }!!
         originalMovieTitle = movie.originalTitle
 
-        loadImage()
         setupToolbar()
-        setupContent()
-
     }
 
     private fun setupToolbar() {
-        with(binding) {
-            setSupportActionBar(toolbarMovieDetail)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-            collapsingToolbar.title = " "
-            collapsingToolbar.setCollapsedTitleTextColor(collapsedIconColor)
-
-            upArrowDrawable = ContextCompat.getDrawable(
-                this@MovieDetailActivity,
-                androidx.appcompat.R.drawable.abc_ic_ab_back_material
-            )?.mutate()
-            updateUpArrowColor(expandedIconColor)
-
-            // Add the offset listener to the AppBarLayout
-            appBarMovieDetail.addOnOffsetChangedListener(this@MovieDetailActivity)
+        binding.movieDetailAppBarComposeView.setContent {
+            MovieDetailAppBar()
         }
     }
 
-    override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
-        val totalScrollRange = appBarLayout?.totalScrollRange ?: 0
-        val currentScrollPercentage = abs(verticalOffset).toFloat() / totalScrollRange.toFloat()
+    @SuppressLint("ContextCastToActivity")
+    @Composable
+    private fun MovieDetailAppBar() {
+        val headerImageHeight = 256.dp
+        val imageUrl: String = getString(R.string.base_url_image) + movie.backdropPath
+        val activity = LocalContext.current as Activity
 
-        if (currentScrollPercentage >= 0.9f) { // Consider it collapsed if 90% or more is scrolled
-            if (!isToolbarCollapsed) {
-                updateUpArrowColor(collapsedIconColor)
-                binding.collapsingToolbar.title = originalMovieTitle
-                isToolbarCollapsed = true
-            }
-        } else {
-            if (isToolbarCollapsed) {
-                updateUpArrowColor(expandedIconColor)
-                binding.collapsingToolbar.title = String()
-                isToolbarCollapsed = false
-            }
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = { },
+                    navigationIcon = {
+                        IconButton(onClick = { activity.finish() }) {
+                            Icon(
+                                Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = "Back",
+                            )
+                        }
+                    },
+                    colors = TopAppBarDefaults.largeTopAppBarColors(
+                        containerColor = colorResource(R.color.black),
+                        navigationIconContentColor = colorResource(R.color.white),
+                    ),
+                    modifier = Modifier.height(56.dp)
+                )
+            },
+            modifier = Modifier.background(colorResource(R.color.white))
+        ) { innerPadding ->
+            setupContent(headerImageHeight, innerPadding, imageUrl)
         }
     }
 
-    private fun updateUpArrowColor(color: Int) {
-        upArrowDrawable?.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
-        supportActionBar?.setHomeAsUpIndicator(upArrowDrawable)
-    }
-
-    private fun setupContent() {
+    private fun setupContent(
+        headerImageHeight: Dp,
+        innerPadding: PaddingValues,
+        imageUrl: String
+    ) {
         binding.movieDetailContentComposeView.setContent {
-            MovieDeTailContent()
+            Box(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .background(Color.White)
+            ) {
+                MovieDeTailContent(headerImageHeight, imageUrl)
+            }
         }
     }
 
@@ -108,33 +119,55 @@ class MovieDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedLis
         return simpleDateFormat.format(simpleDateFormat.parse(releaseDate))
     }
 
-    fun loadImage() {
-        val imageUrl: String = getString(R.string.base_url_image) + movie.backdropPath
-        Glide.with(this)
-            .load(imageUrl)
-            .placeholder(R.mipmap.local_movies)
-            .error(R.mipmap.ic_launcher)
-            .into(binding.movieImageDetail)
-    }
-
     @Composable
-    fun MovieDeTailContent() {
+    fun MovieDeTailContent(
+        headerImageHeight: Dp,
+        imageUrl: String
+    ) {
         Column(
-            modifier  = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
         ) {
+            AsyncImage(
+                model = ImageRequest.Builder(this@MovieDetailActivity)
+                    .data(imageUrl)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                placeholder = painterResource(R.drawable.local_movies),
+                error = painterResource(R.drawable.ic_launcher),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(headerImageHeight)
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = movie.originalTitle,
+                color = colorResource(R.color.black),
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.padding( start = 16.dp, end = 16.dp)
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
             Text(
                 text = getReleaseYear(movie.releaseDate),
                 color = colorResource(R.color.black),
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.padding( start = 16.dp, end = 16.dp)
             )
+
             Spacer(modifier = Modifier.height(16.dp))
+
             Text(
                 text = movie.overview,
                 color = colorResource(R.color.black),
                 style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.padding( start = 16.dp,end = 16.dp)
             )
         }
     }

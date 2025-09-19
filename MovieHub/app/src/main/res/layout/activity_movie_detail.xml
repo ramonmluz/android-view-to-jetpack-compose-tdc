@@ -7,41 +7,10 @@
     android:fitsSystemWindows="true"
     tools:context=".presentation.ui.MovieDetailActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarMovieDetail"
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/movieDetailAppBarComposeView"
         android:layout_width="match_parent"
-        android:layout_height="256dp"
-        android:fitsSystemWindows="true">
-
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsingToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            app:contentScrim="@color/purple_200"
-            app:expandedTitleGravity="top"
-            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
-
-            <ImageView
-                android:id="@+id/movieImageDetail"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center|end"
-                android:fitsSystemWindows="true"
-                android:scaleType="centerCrop"
-                app:layout_collapseMode="pin"
-                tools:src="@mipmap/local_movies" />
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbarMovieDetail"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                style="@style/Theme.AppCompat.Light"/>
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
+        android:layout_height="wrap_content" />
 
     <androidx.compose.ui.platform.ComposeView
         android:id="@+id/movieDetailContentComposeView"

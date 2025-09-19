@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.recyclerview.widget.RecyclerView
 import br.com.ramonmluz.moviehub.R
 import br.com.ramonmluz.moviehub.data.model.Movie
@@ -34,6 +35,7 @@ class MovieAdapter(val items: List<Movie>, val context: Context) :
         navigateToDetail(holder, movie)
     }
 
+    @OptIn(ExperimentalMaterial3Api::class)
     private fun navigateToDetail(holder: ViewHolder, movie: Movie) {
         holder.imageView.setOnClickListener { view ->
             val intent = Intent(view.context, MovieDetailActivity::class.java)

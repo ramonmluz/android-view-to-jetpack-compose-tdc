@@ -87,10 +87,11 @@ dependencies {
     // DI (Koin)
     implementation(libs.koin.android)
 
-    // Image Loading (Glide)
+    // Image Loading (Glide / Coil)
     implementation(libs.glide.core)
     annotationProcessor(libs.glide.compiler) // Se você usa Java
     // kapt(libs.glide.compiler) // Se você usa Kotlin e o plugin 'kotlin-kapt'
+    implementation(libs.coil)
 
     //Test
     testImplementation(libs.junit)
