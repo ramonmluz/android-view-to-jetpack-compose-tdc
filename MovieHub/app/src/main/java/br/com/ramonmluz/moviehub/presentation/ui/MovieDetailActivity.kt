@@ -10,21 +10,16 @@ import br.com.ramonmluz.moviehub.R
 import br.com.ramonmluz.moviehub.data.model.Movie
 import br.com.ramonmluz.moviehub.databinding.ActivityMovieDetailBinding
 import com.bumptech.glide.Glide
-import com.google.android.material.appbar.AppBarLayout
 import kotlinx.serialization.json.Json
 import java.text.SimpleDateFormat
 import java.util.Locale
-import kotlin.math.abs
 
-class MovieDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
+class MovieDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMovieDetailBinding
     private lateinit var movie: Movie
-    private var isToolbarCollapsed = false
     private var upArrowDrawable: Drawable? = null
-    private var collapsedIconColor: Int = Color.WHITE // Default, will be updated
     private var expandedIconColor: Int = Color.WHITE
-    private var originalMovieTitle: String = String()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +28,6 @@ class MovieDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedLis
 
         val jsonString = intent.getStringExtra(EXTRA_MOVIE)
         movie = jsonString?.let { Json.decodeFromString<Movie>(it) }!!
-        originalMovieTitle = movie.originalTitle
 
         loadImage()
         setupToolbar()
@@ -43,38 +37,13 @@ class MovieDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedLis
     private fun setupToolbar() {
         with(binding) {
             setSupportActionBar(toolbarMovieDetail)
+            supportActionBar?.title = String()
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-            collapsingToolbar.title = " "
-            collapsingToolbar.setCollapsedTitleTextColor(collapsedIconColor)
-
             upArrowDrawable = ContextCompat.getDrawable(
                 this@MovieDetailActivity,
                 androidx.appcompat.R.drawable.abc_ic_ab_back_material
             )?.mutate()
             updateUpArrowColor(expandedIconColor)
-
-            // Add the offset listener to the AppBarLayout
-            appBarMovieDetail.addOnOffsetChangedListener(this@MovieDetailActivity)
-        }
-    }
-
-    override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
-        val totalScrollRange = appBarLayout?.totalScrollRange ?: 0
-        val currentScrollPercentage = abs(verticalOffset).toFloat() / totalScrollRange.toFloat()
-
-        if (currentScrollPercentage >= 0.9f) { // Consider it collapsed if 90% or more is scrolled
-            if (!isToolbarCollapsed) {
-                updateUpArrowColor(collapsedIconColor)
-                binding.collapsingToolbar.title = originalMovieTitle
-                isToolbarCollapsed = true
-            }
-        } else {
-            if (isToolbarCollapsed) {
-                updateUpArrowColor(expandedIconColor)
-                binding.collapsingToolbar.title = String()
-                isToolbarCollapsed = false
-            }
         }
     }
 
@@ -85,6 +54,7 @@ class MovieDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedLis
 
     private fun setupContent() {
         with(binding) {
+            movieTitle.text = movie.originalTitle
             releaseDateDatail.text = getReleaseYear(movie.releaseDate)
             overviewDetail.text = movie.overview
         }
@@ -105,7 +75,6 @@ class MovieDetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedLis
     }
 
     companion object {
-        // You can define the key here as well, or reference it from the Adapter
         const val EXTRA_MOVIE = "EXTRA_MOVIE"
     }
 }
