@@ -3,11 +3,11 @@ package br.com.ramonmluz.moviehub.presentation.ui
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import br.com.ramonmluz.moviehub.R
 import br.com.ramonmluz.moviehub.data.model.Movie
-import br.com.ramonmluz.moviehub.databinding.ActivityMovieDetailBinding
+import br.com.ramonmluz.moviehub.presentation.ui.theme.MovieHubTheme
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import kotlinx.serialization.json.Json
@@ -42,27 +42,21 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 @ExperimentalMaterial3Api
-class MovieDetailActivity : AppCompatActivity() {
+class MovieDetailActivity : ComponentActivity() {
 
-    private lateinit var binding: ActivityMovieDetailBinding
     private lateinit var movie: Movie
     private var originalMovieTitle: String = String()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMovieDetailBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
         val jsonString = intent.getStringExtra(EXTRA_MOVIE)
         movie = jsonString?.let { Json.decodeFromString<Movie>(it) }!!
         originalMovieTitle = movie.originalTitle
 
-        setupToolbar()
-    }
-
-    private fun setupToolbar() {
-        binding.movieDetailAppBarComposeView.setContent {
-            MovieDetailAppBar()
+        setContent {
+            MovieHubTheme {
+                MovieDetailAppBar()
+            }
         }
     }
 
@@ -94,16 +88,6 @@ class MovieDetailActivity : AppCompatActivity() {
             },
             modifier = Modifier.background(colorResource(R.color.white))
         ) { innerPadding ->
-            setupContent(headerImageHeight, innerPadding, imageUrl)
-        }
-    }
-
-    private fun setupContent(
-        headerImageHeight: Dp,
-        innerPadding: PaddingValues,
-        imageUrl: String
-    ) {
-        binding.movieDetailContentComposeView.setContent {
             Box(
                 modifier = Modifier
                     .padding(innerPadding)
@@ -149,7 +133,7 @@ class MovieDetailActivity : AppCompatActivity() {
                 text = movie.originalTitle,
                 color = colorResource(R.color.black),
                 style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding( start = 16.dp, end = 16.dp)
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp)
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -158,7 +142,7 @@ class MovieDetailActivity : AppCompatActivity() {
                 text = getReleaseYear(movie.releaseDate),
                 color = colorResource(R.color.black),
                 style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding( start = 16.dp, end = 16.dp)
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp)
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -167,7 +151,7 @@ class MovieDetailActivity : AppCompatActivity() {
                 text = movie.overview,
                 color = colorResource(R.color.black),
                 style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding( start = 16.dp,end = 16.dp)
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp)
             )
         }
     }
