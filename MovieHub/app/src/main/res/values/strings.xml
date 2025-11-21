@@ -2,5 +2,5 @@
     <string name="app_name">Filmes Pupulares</string>
     <string name="error_listing_movies">Erro ao listar filmes. Clique aqui para tentar novamente.</string>
     <string name="base_url_image">https://image.tmdb.org/t/p/w185</string>
-    <string name="auth_token">Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNDg1MmQxMTc5OGQzNWViYWU5OTZhZmIzNjI4NzVkNCIsIm5iZiI6MTQ4OTQ2NDYwNC45MTkwMDAxLCJzdWIiOiI1OGM3NmQxOWMzYTM2ODNkYmQwMDVkNzEiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.9_6zFkMybYwy_hTlrHHcdu4_y6OWFi3kvIFvVsUxaNQ</string>
+    <string name="auth_token">auth token</string>
 </resources>
