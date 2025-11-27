@@ -54,8 +54,9 @@ class MovieDetailActivity : AppCompatActivity() {
 
     private fun setupContent() {
         with(binding) {
-            movieTitle.text = movie.originalTitle
             releaseDateDatail.text = getReleaseYear(movie.releaseDate)
+            overviewDetail.text = movie.overview
+            titleTxt.text = movie.originalTitle
             overviewDetail.text = movie.overview
         }
     }
