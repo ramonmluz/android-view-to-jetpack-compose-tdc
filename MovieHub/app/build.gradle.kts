@@ -76,6 +76,7 @@ dependencies {
     // Navigation
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.ui.test.junit4)
     androidTestImplementation(libs.androidx.navigation.testing) // Geralmente para testes de UI/navegação
 
     // Networking (Retrofit, OkHttp, Json)
