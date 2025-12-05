@@ -13,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -23,13 +22,14 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import java.text.SimpleDateFormat
 import java.util.Locale
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun MovieDetailContent(movie: Movie) {
 
     val context: Context = LocalContext.current
     val headerImageHeight: Dp = 256.dp
-    val imageUrl: String = context.getString(R.string.base_url_image) + movie.posterPath
+    val imageUrl: String = stringResource(R.string.base_url_image) + movie.posterPath
 
     Column(
         modifier = Modifier
@@ -54,7 +54,7 @@ fun MovieDetailContent(movie: Movie) {
 
         Text(
             text = movie.originalTitle,
-            color = colorResource(R.color.black),
+            color = MaterialTheme.colorScheme.secondary,
             style = MaterialTheme.typography.titleLarge,
             modifier = Modifier.padding(start = 16.dp, end = 16.dp)
         )
@@ -63,7 +63,7 @@ fun MovieDetailContent(movie: Movie) {
 
         Text(
             text = getReleaseYear(movie.releaseDate),
-            color = colorResource(R.color.black),
+            color = MaterialTheme.colorScheme.secondary,
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.padding(start = 16.dp, end = 16.dp)
         )
@@ -72,7 +72,7 @@ fun MovieDetailContent(movie: Movie) {
 
         Text(
             text = movie.overview,
-            color = colorResource(R.color.black),
+            color = MaterialTheme.colorScheme.secondary,
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.padding(start = 16.dp, end = 16.dp)
         )

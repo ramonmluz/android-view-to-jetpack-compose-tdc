@@ -8,12 +8,12 @@ plugins {
 
 android {
     namespace = "br.com.ramonmluz.moviehub"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "br.com.ramonmluz.moviehub"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -71,6 +71,8 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 //    implementation(libs.androidx.navigation.compose)
+
+    implementation(libs.androidx.compose.material.icons.extended)
 
     // Navigation
     implementation(libs.androidx.navigation.fragment.ktx)

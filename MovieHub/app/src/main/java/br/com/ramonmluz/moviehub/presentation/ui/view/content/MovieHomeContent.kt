@@ -42,7 +42,6 @@ import br.com.ramonmluz.moviehub.presentation.ui.MovieDetailActivity.Companion.E
 import br.com.ramonmluz.moviehub.presentation.ui.viewmodel.MovieViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.koin.androidx.compose.koinViewModel
 
@@ -86,6 +85,7 @@ fun MovieGridInitialization(
 ) {
     LazyVerticalGrid(
         modifier = modifier.padding(innerPadding),
+
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
