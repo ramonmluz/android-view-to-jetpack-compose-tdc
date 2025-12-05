@@ -15,49 +15,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.progressindicator.CircularProgressIndicator
+    <androidx.compose.ui.platform.ComposeView
         android:id="@+id/progress"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:indeterminate="true"
         android:visibility="gone"
-        app:indicatorColor="@color/teal_200"
-        app:indicatorSize="@dimen/loading_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!--<LinearLayout
-        android:id="@+id/errorArea"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_card_error_view"
-        android:layout_gravity="center"
-        android:layout_margin="@dimen/margin_medium"
-        android:background="?attr/colorPrimary"
-        android:orientation="horizontal"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/composeRecyclerView"
-        tools:visibility="visible">
-
-        <ImageView
-            android:layout_width="@dimen/load_img_size"
-            android:layout_height="@dimen/load_img_size"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_big"
-            android:src="@mipmap/ic_reload" />
-
-        <TextView
-            android:id="@+id/textMsgErrorView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:gravity="center_vertical"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_medium"
-            android:text="@string/error_listing_movies" />
-
-    </LinearLayout>-->
+<!--    <com.google.android.material.progressindicator.CircularProgressIndicator-->
+<!--        android:id="@+id/progress"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:indeterminate="true"-->
+<!--        android:visibility="gone"-->
+<!--        app:indicatorColor="@color/teal_200"-->
+<!--        app:indicatorSize="@dimen/loading_margin"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
