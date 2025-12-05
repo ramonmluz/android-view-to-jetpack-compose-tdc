@@ -23,7 +23,7 @@ kotlinxSerializationJson = "1.7.3"
 kotlinxSerializationConverter = "1.0.0"
 
 # DI
-koin = "3.5.3"
+koin = "4.1.1"
 
 # Image Loading
 glide = "4.16.0"
@@ -66,7 +66,7 @@ androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graph
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" } # Or androidx-compose-material if using Material 2
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
-
+androidx-lifecycle-viewmodel-compose ={ group="androidx.lifecycle", name = "lifecycle-viewmodel-compose"}
 
 # Networking (Retrofit, OkHttp, Json)
 retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
@@ -76,6 +76,7 @@ kotlinx-serialization-converter = { group = "com.jakewharton.retrofit", name = "
 
 # DI (Koin)
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
+koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
 
 # Image Loading (Glide)
 

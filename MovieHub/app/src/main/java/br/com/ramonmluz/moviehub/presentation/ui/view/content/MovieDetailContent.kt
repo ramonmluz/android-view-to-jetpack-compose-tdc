@@ -1,7 +1,6 @@
 package br.com.ramonmluz.moviehub.presentation.ui.view.content
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,8 +30,6 @@ fun MovieDetailContent(movie: Movie) {
     val context: Context = LocalContext.current
     val headerImageHeight: Dp = 256.dp
     val imageUrl: String = context.getString(R.string.base_url_image) + movie.posterPath
-    Log.d("image", imageUrl)
-
 
     Column(
         modifier = Modifier
