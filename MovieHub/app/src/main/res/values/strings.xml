@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Filmes Pupulares</string>
+    <string name="error_listing_movies">Erro ao listar filmes. Clique aqui para tentar novamente.</string>
+    <string name="base_url_image">https://image.tmdb.org/t/p/w185</string>
+    <string name="auth_token">auth token</string>
+</resources>
