@@ -18,7 +18,6 @@ fun MovieHomeScreen() {
     MovieHubTheme {
         Scaffold(
             topBar = { TopBar() },
-//            modifier = Modifier.background(colorResource(R.color.white))
         ) { innerPadding ->
             MovieHomeContent(innerPadding)
         }

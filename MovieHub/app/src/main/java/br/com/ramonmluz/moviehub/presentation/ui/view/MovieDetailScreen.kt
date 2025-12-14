@@ -36,18 +36,15 @@ fun MovieDetailScreen(action: () -> Unit = {} , movie: Movie) {
                     },
                     colors = TopAppBarDefaults.largeTopAppBarColors(
                         containerColor = MaterialTheme.colorScheme.primaryContainer,
-                        titleContentColor = MaterialTheme.colorScheme.primary,
                         navigationIconContentColor = MaterialTheme.colorScheme.primary,
                     ),
                 )
             },
-//            modifier = Modifier.background(colorResource(R.color.white))
         ) { innerPadding ->
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding)
-//                    .background(MaterialTheme.colorScheme.primary)
             ) {
                 MovieDetailContent(movie)
             }
