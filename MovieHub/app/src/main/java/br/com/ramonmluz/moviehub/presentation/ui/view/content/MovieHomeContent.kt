@@ -24,7 +24,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -39,15 +38,18 @@ import br.com.ramonmluz.moviehub.R
 import br.com.ramonmluz.moviehub.data.model.Movie
 import br.com.ramonmluz.moviehub.presentation.ui.MovieDetailActivity
 import br.com.ramonmluz.moviehub.presentation.ui.MovieDetailActivity.Companion.EXTRA_MOVIE
+import br.com.ramonmluz.moviehub.presentation.ui.state.MovieState
 import br.com.ramonmluz.moviehub.presentation.ui.viewmodel.MovieViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import kotlinx.serialization.json.Json
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun MovieHomeContent(innerPadding: PaddingValues, viewModel: MovieViewModel = koinViewModel()) {
-    val state = viewModel.movieState.collectAsState().value
+fun MovieHomeContent(
+    innerPadding: PaddingValues,
+    state: MovieState,
+    viewModel: MovieViewModel
+) {
     when {
         state.isLoading -> {
             ProgressIndicator()
